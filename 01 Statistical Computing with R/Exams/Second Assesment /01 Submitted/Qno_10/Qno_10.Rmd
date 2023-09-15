@@ -1,0 +1,51 @@
+---
+title: "Qno_10"
+author: "Arpan Sapkota"
+date: "2023-07-02"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## a
+```{r, warning=FALSE}
+hc_single <- hclust(dist(mtcars), method = "single")
+
+plot(hc_single, main = "Hierarchical Clustering - Single Linkage")
+```
+
+## b
+```{r, warning=FALSE}
+hc_complete <- hclust(dist(mtcars), method = "complete")
+
+plot(hc_complete, main = "Hierarchical Clustering - Complete Linkage")
+```
+
+## c
+```{r, warning=FALSE}
+hc_average <- hclust(dist(mtcars), method = "average")
+
+plot(hc_average, main = "Hierarchical Clustering - Average Linkage")
+```
+
+## d
+```{r, warning=FALSE}
+#rect.hclust(hc_complete, k = 3, border = "red")
+```
+
+## e
+```{r, warning=FALSE}
+#sil_width <- silhouette(cutree(hc_complete, k = 3), dist(mtcars))
+#best_k <- k_values[which.max(sil_width)]
+
+#cat("Best value of k:", best_k, "\n")
+# Output
+#Best value of k: 6 
+```
+## Error while Knitting of the output is 
+# Output
+#Best value of k: 6 

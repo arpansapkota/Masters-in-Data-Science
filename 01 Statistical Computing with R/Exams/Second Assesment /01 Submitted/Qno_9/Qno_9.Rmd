@@ -1,0 +1,62 @@
+---
+title: "Qno_9"
+author: "Arpan Sapkota"
+date: "2023-07-02"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## a
+```{r, warning=FALSE}
+data(mtcars)
+
+car_scale <- scale(mtcars) # Scale the variables
+pca_model <- prcomp(car_scale) # Perform PCA
+```
+
+## b
+```{r, warning=FALSE}
+
+variance <- pca_model$sdev^2 
+prop_var <- variance / sum(variance) 
+
+eigenvalues <- pca_model$sdev^2
+num_components <- sum(eigenvalues > 1)
+
+cat("Kaiser's Criteria:\n")
+cat("Eigenvalues:", eigenvalues, "\n")
+cat("Number of components to be retained:", num_components, "\n\n")
+```
+
+## c
+```{r, warning=FALSE}
+screeplot(pca_model, type = "line") # Plot the scree plot
+
+```
+The scree plot helps in determining the number of components to retain based on the elbow point. We can visually inspect the plot and decide the number of components to retain.
+
+
+
+## d
+```{r, warning=FALSE}
+biplot(pca_model) # Plot the bi-plot
+
+```
+The bi-plot shows the relationships between the variables and the principal components. The length and direction of the arrows represent the importance and direction of the variables in the component space.
+
+## e
+```{r, warning=FALSE}
+library(psych)
+rotated_pca <- principal(car_scale, nfactors = num_components, rotate = "varimax")
+
+cat("\nVARIMAX Rotated Loadings:\n")
+print(rotated_pca$loadings)
+
+```
+The VARIMAX rotation helps in maximizing the variance of each component and simplifying the interpretation.The rotated loadings show the relationship between the variables and the rotated components.
+

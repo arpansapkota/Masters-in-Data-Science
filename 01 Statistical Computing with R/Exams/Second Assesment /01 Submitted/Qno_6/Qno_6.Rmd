@@ -1,0 +1,83 @@
+---
+title: "Qno_6"
+author: "Arpan Sapkota"
+date: "2023-07-02"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## a
+```{r, warning=FALSE}
+library(ggplot2)
+set.seed(07)
+age <- sample(18:99, 100, replace = TRUE)
+sex <- sample(c("Male", "Female"), 100, replace = TRUE)
+education <- sample(c("No education", "Primary", "Secondary", "Beyond Secondary"), 100, replace = TRUE)
+socio_economic <- sample(c("Low", "Middle", "High"), 100, replace = TRUE)
+bmi <- runif(100, 14, 38)
+
+dataset <- data.frame(age, sex, education, socio_economic, bmi)
+head(dataset)
+
+```
+
+## b
+```{r, warning=FALSE}
+ggplot(data = dataset, aes(x = age)) +
+  geom_line(stat = "density", color = "blue") +
+  labs(x = "Age", y = "Density") +
+  ggtitle("Density Plot of Age")
+
+```
+The line chart represents the density of the age variable. It shows the distribution of ages in the dataset. The x-axis represents the age values, and the y-axis represents the density of those ages. The higher the density, the more cases there are at that particular age.
+
+## c
+```{r, warning=FALSE}
+ggplot(data = dataset, aes(x = age, y = bmi)) +
+  geom_point(color = "red") +
+  labs(x = "Age", y = "Body Mass Index") +
+  ggtitle("Scatter Plot of Age and Body Mass Index")
+
+```
+Interpretation: The scatter plot represents the relationship between age and body mass index (BMI) in the dataset. Each point in the plot represents a case with its corresponding age and BMI values. The x-axis represents the age, and the y-axis represents the BMI. By examining the scatter plot.
+
+## d 
+## Pie Chart not able to Knit in HTML file due to some error so it will exported be in the same folder as Qn6_Pie Chart.png 
+```{r, warning=FALSE}
+
+# Create a table of counts for each BMI class
+bmi_counts <- table(dataset$BMI_Class)
+
+# Convert the table to a data frame
+bmi_counts_df <- data.frame(BMI_Class = names(bmi_counts), Freq = as.numeric(bmi_counts))
+
+# Create a pie chart
+#ggplot(data = bmi_counts_df, aes(x = "", y = Freq, fill = BMI_Class)) +
+#  geom_bar(stat = "identity", width = 1) +
+#  coord_polar("y", start = 0) +
+#  labs(x = NULL, y = NULL, fill = "BMI Class") +
+#  ggtitle("Pie Chart of Body Mass Index Classes")
+
+```
+Interpretation: The pie chart represents the distribution of body mass index (BMI) classes in the dataset. Each slice of the pie corresponds to a BMI class, such as "<18," "18-24," "25-30," and "30+." The size of each slice represents the proportion of cases in the dataset that belong to that BMI class
+
+
+## e
+```{r, warning=FALSE}
+dataset$Age_Class <- cut(dataset$age, breaks = c(0, 15, 59, Inf), labels = c("<15", "15-59", "30+"))
+age_counts <- table(dataset$Age_Class)
+
+ggplot(data = data.frame(Age_Class = names(age_counts), Count = as.numeric(age_counts)), aes(x = Age_Class, y = Count)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(x = "Age Class", y = "Count") +
+  ggtitle("Bar Diagram of Age Classes")
+
+
+```
+Interpretation: The bar diagram represents the distribution of age classes in the dataset. Each bar corresponds to an age class, such as "<15," "15-59," and "30+." The height of each bar represents the count or frequency of cases in the dataset belonging to that particular age class. The x-axis represents the age classes, and the y-axis represents the count of cases. 
+

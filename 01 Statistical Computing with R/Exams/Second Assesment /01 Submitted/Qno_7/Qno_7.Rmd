@@ -1,0 +1,74 @@
+---
+title: "Qno_7"
+author: "Arpan Sapkota"
+date: "2023-07-02"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## a
+```{r, warning=FALSE}
+
+library(car)
+data("Bfox")
+
+set.seed(07)
+
+train_indices <- sample(1:nrow(Bfox), 0.7 * nrow(Bfox))
+train_data <- Bfox[train_indices, ]
+test_data <- Bfox[-train_indices, ]
+```
+
+## b
+```{r, warning=FALSE}
+library(caret)
+
+linear_model <- train(debt ~ ., data = train_data, method = "lm")
+knn_model <- train(debt ~ ., data = train_data, method = "knn")
+```
+
+## c
+```{r, warning=FALSE}
+summary(linear_model)
+linear_model$results
+```
+
+These indices provide information about the model's performance, such as the average difference between predicted and actual values (RMSE), the proportion of variance explained (R-squared), and the variability of these indices across different iterations or cross-validation folds.
+
+
+## d
+```{r, warning=FALSE}
+linear_pred <- predict(linear_model, newdata = test_data)
+knn_pred <- predict(knn_model, newdata = test_data)
+```
+
+## e
+```{r, warning=FALSE}
+library(MLmetrics)
+
+linear_r2 <- R2_Score(test_data$debt, linear_pred)
+linear_mse <- MSE(test_data$debt, linear_pred)
+linear_rmse <- RMSE(test_data$debt, linear_pred)
+
+knn_r2 <- R2_Score(test_data$debt, knn_pred)
+knn_mse <- MSE(test_data$debt, knn_pred)
+knn_rmse <- RMSE(test_data$debt, knn_pred)
+
+# Printing the fit indices
+cat("Linear Regression Model:\n")
+cat("R-square: ", linear_r2, "\n")
+cat("Mean Squared Error (MSE): ", linear_mse, "\n")
+cat("Root Mean Squared Error (RMSE): ", linear_rmse, "\n\n")
+
+cat("KNN Regression Model:\n")
+cat("R-square: ", knn_r2, "\n")
+cat("Mean Squared Error (MSE): ", knn_mse, "\n")
+cat("Root Mean Squared Error (RMSE): ", knn_rmse, "\n")
+
+```
+The linear regression model outperforms the KNN regression model based on these fit indices. It has a higher R-squared value and lower MSE and RMSE, indicating a better fit and more accurate predictions compared to the KNN model.
